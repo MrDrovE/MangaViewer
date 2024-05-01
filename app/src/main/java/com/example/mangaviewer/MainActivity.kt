@@ -1,12 +1,16 @@
 package com.example.mangaviewer
 
+import android.Manifest
 import java.io.File
 import android.os.Bundle
+import android.os.Environment
 import android.os.storage.StorageManager
+
 import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -43,6 +47,15 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch { val value = searchPDF()
                 text.text = value.toString()
             }
+        }
+
+        if (Environment.isExternalStorageManager()) {
+            text.text = "YES"
+        }else{
+            ActivityCompat.requestPermissions(
+                /* activity = */ this@MainActivity,
+                /* permissions = */ arrayOf(Manifest.permission.MANAGE_EXTERNAL_STORAGE),
+                /* requestCode = */ 4)
         }
     }
     private fun sdas(){
